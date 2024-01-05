@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center_vertical"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Question Here..." />
+
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Question"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etOpt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Option 1"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etOpt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Option 2"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etOpt3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Option 3"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etOpt4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Option 4"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+        <EditText
+            android:background="@drawable/edit_text_background"
+            android:id="@+id/etAns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Correct Answer"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Quiz"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+    <ImageView
+
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/wave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
