@@ -6,9 +6,8 @@
 
         <item android:title="Rate Us" />
         <item android:title="Profile" />
-        <item
-            android:id="@+id/createQuiz"
-            android:title="Create Quiz" />
-        <item android:title="Log Out" />
+        <item android:title="Log Out"
+            android:id="@+id/logOut"
+            app:showAsAction="always"/>
     </group>
 </menu>

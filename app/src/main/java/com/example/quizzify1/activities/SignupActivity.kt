@@ -43,7 +43,7 @@ class SignupActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Password is not Matching", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Passwords are not Matching", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, " Empty Fields Are Not Allowed !!", Toast.LENGTH_SHORT).show()

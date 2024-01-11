@@ -16,22 +16,36 @@
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.059" />
+        app:layout_constraintVertical_bias="0.016" />
 
     <TextView
         android:id="@+id/question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="@color/design_default_color_primary"
-        android:textSize="16sp"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:padding="4dp"
+        android:background="@drawable/ques_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textClock2"
         android:layout_marginTop="24dp"/>
+
+    <ImageView
+        android:id="@+id/quesImg"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:src="@drawable/app_logo"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/question"
+        app:layout_constraintBottom_toTopOf="@+id/optionList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </ImageView>
 
     <Button
         android:id="@+id/btnPrev"
@@ -42,18 +56,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"/>
-    
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
 
     <Button
+        android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btnNext"
         android:text="Next"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,16 +79,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8"/>
+        app:layout_constraintGuide_percent="0.9"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:id="@+id/optionList"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
         app:layout_constraintEnd_toEndOf="@id/question"
         app:layout_constraintStart_toStartOf="@id/question"
-        app:layout_constraintTop_toBottomOf="@id/question"/>
+        app:layout_constraintTop_toBottomOf="@id/quesImg"/>
 
     <Button
         android:layout_width="0dp"

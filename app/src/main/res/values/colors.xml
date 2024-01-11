@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
+        <item name="colorPrimary">#00BF83</item>
+        <item name="colorPrimaryDark">#00cba3</item>
+        <item name="colorAccent">#FF0000</item>
+    </style>
+
+    <style name="AppThemeNoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#00BF83</item>
+        <item name="colorPrimaryDark">#00cba3</item>
+        <item name="colorAccent">#FF0000</item>
+    </style>
 </resources>
