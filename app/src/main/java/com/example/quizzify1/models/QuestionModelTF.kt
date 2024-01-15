@@ -4,5 +4,7 @@ data class QuestionModelTF (
 
     var questionId: String? = null,
     var ques: String? = null,
-    val ans: String? = null
+    val ans: String? = null,
+    val quesImg : String? = null,
+    var userAns: String? = null
 )

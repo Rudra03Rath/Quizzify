@@ -34,6 +34,8 @@
             android:exported="false"/>
         <activity android:name=".activities.CreateQuizActivity"
             android:exported="false"/>
+        <activity android:name=".activities.ResultActivity"
+            android:exported="false"/>
         <activity android:name=".activities.CreateQuizTFActivity"
             android:exported="false"/>
         <activity android:name=".activities.QuestionActivity" android:theme="@style/AppTheme"

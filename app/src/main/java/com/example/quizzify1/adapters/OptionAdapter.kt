@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quizzify1.R
 import com.example.quizzify1.models.QuestionModel
 
-class OptionAdapter(val context: Context, val question: QuestionModel) :
+class OptionAdapter(
+    val context: Context,
+    val question: QuestionModel,
+    val callback: (QuestionModel) -> Unit
+) :
     RecyclerView.Adapter<OptionAdapter.OptionViewHolder>() {
 
     private var options: List<String?> =
@@ -32,6 +36,7 @@ class OptionAdapter(val context: Context, val question: QuestionModel) :
         holder.optionView.text = options[position]
         holder.itemView.setOnClickListener {
             question.userAns = options[position]
+            callback(question)
             notifyDataSetChanged()
         }
 

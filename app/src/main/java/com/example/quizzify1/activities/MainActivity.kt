@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.text.toLowerCase
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.quizzify1.R
 import com.example.quizzify1.adapters.QuizAdapter
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -30,17 +32,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun populateDummyData() {
-        quizList.add(Quiz("001", "Physics"))
-        quizList.add(Quiz("002", "Chemistry"))
-        quizList.add(Quiz("003", "Mathematics"))
-        quizList.add(Quiz("004", "Miscellaneous"))
+        quizList.add(Quiz("001", "PHYSICS"))
+        quizList.add(Quiz("002", "CHEMISTRY"))
+        quizList.add(Quiz("003", "MATHEMATICS"))
+        quizList.add(Quiz("004", "MISCELLANEOUS"))
+        quizList.add(Quiz("005", "PHYSICS TF"))
+        quizList.add(Quiz("006", "CHEMISTRY TF"))
+        quizList.add(Quiz("007", "MATHEMATICS TF"))
+        quizList.add(Quiz("008", "MISCELLANEOUS TF"))
 
     }
 
     fun setUpViews() {
         setUpDrawerLayout()
         setUpRecyclerView()
-
     }
 
 

@@ -29,7 +29,7 @@ class CreateQuizActivity : AppCompatActivity() {
     private lateinit var btn: Button
     private lateinit var btnImg: Button
     private lateinit var img : ImageView
-    private lateinit var uri : Uri
+    private var uri : Uri? = null
     private lateinit var storageRef : FirebaseStorage
 
     private lateinit var dbRef: DatabaseReference
@@ -84,7 +84,7 @@ class CreateQuizActivity : AppCompatActivity() {
 
     private fun saveQuestion() {
         val ques = etQuestion.text.toString()
-        val sub = etSub.text.toString()
+        val sub = etSub.text.trim().toString().uppercase()
         val opt1 = etOpt1.text.toString()
         val opt2 = etOpt2.text.toString()
         val opt3 = etOpt3.text.toString()
@@ -95,7 +95,7 @@ class CreateQuizActivity : AppCompatActivity() {
 
         if (sub.isEmpty()) {
             etSub.error = " Please Enter The Subject "
-        } else if (ques.isEmpty()){
+        } else if (ques.isEmpty() && uri==null) {
             etQuestion.error = " Please Enter The Question "
         } else if (opt1.isEmpty()) {
             etOpt1.error = " Please Enter Option 1 "
@@ -107,10 +107,54 @@ class CreateQuizActivity : AppCompatActivity() {
             etOpt4.error = " Please Enter Option 4 "
         } else if (ans.isEmpty()) {
             etAns.error = " Please Enter The Correct Answer "
-        } else {
+        } else if (uri == null){
+            if ((ans == opt1) || (ans == opt2) || (ans == opt3) || (ans == opt4)) {
+                val questionId = dbRef.push().key!!
+
+                val question = QuestionModel(
+                    questionId,
+                    ques,
+                    opt1,
+                    opt2,
+                    opt3,
+                    opt4,
+                    ans
+                )
+
+                dbRef.child(sub).child(questionId).setValue(question)
+//                dbRef.child("Chem").child(questionId).setValue(question)
+                    .addOnCompleteListener {
+                        Toast.makeText(
+                            this,
+                            "Question is Created",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        etQuestion.text.clear()
+                        etSub.text.clear()
+                        etOpt1.text.clear()
+                        etOpt2.text.clear()
+                        etOpt3.text.clear()
+                        etOpt4.text.clear()
+                        etAns.text.clear()
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show()
+                    }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Correct Answer is not in the Options",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+
+        } else{
 
                 storageRef.getReference("Images").child(System.currentTimeMillis().toString())
-                    .putFile(uri)
+                    .putFile(uri!!)
                     .addOnSuccessListener { task ->
                         task.metadata!!.reference!!.downloadUrl
                             .addOnSuccessListener {

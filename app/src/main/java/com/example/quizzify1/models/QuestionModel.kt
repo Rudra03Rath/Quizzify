@@ -11,5 +11,4 @@ package com.example.quizzify1.models
      val ans: String? = null,
      val quesImg : String? = null,
      var userAns: String? = null
-
  )

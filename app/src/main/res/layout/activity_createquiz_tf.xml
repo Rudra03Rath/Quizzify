@@ -5,18 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.LoginActivity">
-
-    <LinearLayout
-        android:layout_height="0dp"
+    <ScrollView
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="1.0">
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
         <TextView
             style="@style/TextAppearance.AppCompat.Title"
@@ -47,6 +53,24 @@
             android:textSize="16sp"
             android:ems="10"
             android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btnImg"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:text="Add Image Question"
+            android:textAlignment="gravity" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:layout_marginTop="24dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <EditText
             android:background="@drawable/edit_text_background"
@@ -91,6 +115,7 @@
             android:layout_marginTop="32dp"/>
 
     </LinearLayout>
+    </ScrollView>
     <ImageView
 
         android:id="@+id/imageView3"
