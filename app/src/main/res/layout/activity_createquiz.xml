@@ -23,8 +23,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            >
+            android:paddingEnd="32dp">
 
 
             <TextView
@@ -35,16 +34,51 @@
                 android:textColor="@color/design_default_color_primary"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etSub"
+            <RadioGroup
+                android:id="@+id/radioGroupSubject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edit_text_background"
-                android:ems="10"
-                android:hint="Subject"
-                android:inputType="textMultiLine"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:layout_marginTop="24dp">
+
+                <RadioButton
+                    android:id="@+id/rbPhysics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PHYSICS" />
+
+                <RadioButton
+                    android:id="@+id/rbChemistry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHEMISTRY" />
+
+                <RadioButton
+                    android:id="@+id/rbMathematics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MATHEMATICS" />
+
+                <RadioButton
+                    android:id="@+id/rbBiology"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BIOLOGY" />
+
+                <RadioButton
+                    android:id="@+id/rbGK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GK" />
+
+                <RadioButton
+                    android:id="@+id/rbMiscellaneous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MISCELLANEOUS" />
+
+
+            </RadioGroup>
 
 
             <EditText
@@ -77,49 +111,26 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
 
-            <EditText
-                android:id="@+id/etOpt1"
+            <LinearLayout
+                android:id="@+id/optionsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edit_text_background"
-                android:ems="10"
-                android:hint="Option 1"
-                android:inputType="textMultiLine"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp">
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/etOpt2"
+            <Button
+                android:id="@+id/btnAddOption"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edit_text_background"
-                android:ems="10"
-                android:hint="Option 2"
-                android:inputType="textMultiLine"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/etOpt3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edit_text_background"
-                android:ems="10"
-                android:hint="Option 3"
-                android:inputType="textMultiLine"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/etOpt4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/edit_text_background"
-                android:ems="10"
-                android:hint="Option 4"
-                android:inputType="textMultiLine"
-                android:textSize="16sp" />
+                android:layout_height="38dp"
+                android:gravity="center"
+                android:visibility="visible"
+                android:text="Add Option"
+                android:textAlignment="gravity"
+                android:layout_marginTop="16dp" />
 
             <EditText
                 android:id="@+id/etAns"
@@ -131,6 +142,8 @@
                 android:hint="Correct Answer"
                 android:inputType="textMultiLine"
                 android:textSize="16sp" />
+
+
 
             <Button
                 android:id="@+id/btn1"

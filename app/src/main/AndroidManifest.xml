@@ -41,6 +41,8 @@
         <activity android:name=".activities.QuestionActivity" android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity android:name=".activities.CategoryActivity"/>
+        <activity android:name=".activities.LeaderBoardActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

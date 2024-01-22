@@ -12,6 +12,14 @@
         android:layout_height="80dp"
         app:srcCompat="@drawable/app_logo"
         />
+    <TextView
+        android:id="@+id/username"
+        style="@style/TextAppearance.AppCompat.Widget.PopupMenu.Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:text="Quiz Yourself Daily!" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"

@@ -37,7 +37,20 @@
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnLeaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Leaderboard"
+                android:layout_marginTop="10dp"
+                android:background="#000000"
+                />
+
+
         </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/txtAnswer"

@@ -1,5 +1,6 @@
 package com.example.quizzify1.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,22 +9,19 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.quizzify1.R
 import com.example.quizzify1.adapters.OptionAdapter
 import com.example.quizzify1.models.QuestionModel
-import com.example.quizzify1.models.Quiz
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import kotlin.math.log
-
-
 
 
 class QuestionActivity : AppCompatActivity() {
@@ -36,25 +34,48 @@ class QuestionActivity : AppCompatActivity() {
     private lateinit var submit : Button
     private lateinit var textViewTimer: TextView
     private lateinit var timer: CountDownTimer
-    private var totalTimeInMillis: Long = 180000 // (x min = x*60*1000 milisec)
+    private var totalTimeInMillis: Long = 180000// (x min = x*60*1000 milisec)
     private var timeLeftInMillis: Long = totalTimeInMillis
     private val countDownInterval: Long = 1000
-    //private val durationPerQuestionInMillis: Long = 30000
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
+        setContentView(R.layout.activity_question)
         title = intent.getStringExtra("title").toString()
         next = findViewById(R.id.btnNext)
-         prev = findViewById(R.id.btnPrev)
-         submit  = findViewById(R.id.btnSubmit)
+        prev = findViewById(R.id.btnPrev)
+        submit  = findViewById(R.id.btnSubmit)
         textViewTimer = findViewById(R.id.textViewTimer)
 
         setUpFirestore()
         setupEventListener()
-        initTimer()
+        //initTimer()
+    }
+
+    override fun onBackPressed() {
+        showExitConfirmationDialog()
+    }
+
+    private fun showExitConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Exit Quiz")
+        builder.setMessage("Are you sure you want to leave the quiz?")
+        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+            timer.cancel()
+            super.onBackPressed()
+        }
+        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+            // Do nothing, stay in the quiz and Enjoy
+        }
+        builder.show()
+    }
+
+
+    private fun calculateTotalTime(numberOfQuestions: Int): Long {
+        val durationPerQuesInMillis: Long = 30000 // 30 seconds
+        return numberOfQuestions * durationPerQuesInMillis
     }
 
 
@@ -69,11 +90,7 @@ class QuestionActivity : AppCompatActivity() {
             override fun onFinish() {
                 submitQuiz()
             }
-
-
         }
-
-
         timer.start()
     }
 
@@ -83,6 +100,7 @@ class QuestionActivity : AppCompatActivity() {
         val intent = Intent(this,ResultActivity::class.java)
         val json = Gson().toJson(questions)
         intent.putExtra("QUIZ", json)
+        intent.putExtra("title", title)
         startActivity(intent)
         finish()
     }
@@ -119,42 +137,37 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     private fun setUpFirestore() {
-        val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("MCQ Questions")
+        val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Questions")
             .child(title)
-        Log.i("dataaa", "dbref - $dbRef")
         dbRef.addValueEventListener(object : ValueEventListener {
-
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.i("dataaa", "dataExist")
                 quesDataList.clear()
                 if (snapshot.exists()) {
-
-
                     for (dataSnap in snapshot.children) {
-
                         val quesData = dataSnap.getValue(QuestionModel::class.java)
-                        Log.i("dataaa", "dataSnapQues - ${quesData!!.ques}")
-                        quesDataList.add(quesData)
-
-                    }
-
-                    questions.clear()
-
-
-                    for (question in quesDataList) {
-                        if (question.questionId != null) {
-                            questions[question.questionId!!] = question
+                        quesData?.let {
+                            it.options?.let { options ->
+                                //the list of options
+                            }
+                            quesDataList.add(it)
                         }
                     }
-                    /*quizzes = snapshot(Quiz::class.java)
-                    questions = quizzes!![0].questions*/
+                    questions.clear()
+                    for (question in quesDataList) {
+                        question.questionId?.let { id ->
+                            questions[id] = question
+                        }
+                    }
+                    val numberOfQuestions = quesDataList.size
+                    totalTimeInMillis = calculateTotalTime(numberOfQuestions)
+                    timeLeftInMillis = totalTimeInMillis
+                    initTimer()
                     bindViews(quesDataList)
-
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                // Handle error
             }
         })
         dbRef.get()
@@ -162,8 +175,6 @@ class QuestionActivity : AppCompatActivity() {
 
     private fun bindViews(quesDataList: MutableList<QuestionModel>) {
 
-        /*if (index>=quesDataList.size)
-        return*/
 
         next.visibility = View.GONE
         prev.visibility = View.GONE
@@ -191,7 +202,7 @@ class QuestionActivity : AppCompatActivity() {
             qtn.text = it.ques
             var url = it.quesImg.toString()
             if (url != "null") {
-                url = url.substring(5, url.length - 1)
+                //url = url.substring(5, url.length - 1)
                 qtnImg.visibility = View.VISIBLE
                 Glide.with(this).load(url).into(qtnImg)
             } else {
@@ -209,3 +220,4 @@ class QuestionActivity : AppCompatActivity() {
 
     }
 }
+

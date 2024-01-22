@@ -5,24 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.text.toLowerCase
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.quizzify1.R
 import com.example.quizzify1.adapters.QuizAdapter
 import com.example.quizzify1.models.Quiz
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     lateinit var adapter: QuizAdapter
-    private lateinit var firebaseAuth: FirebaseAuth
     private var quizList = mutableListOf<Quiz>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +29,9 @@ class MainActivity : AppCompatActivity() {
         quizList.add(Quiz("001", "PHYSICS"))
         quizList.add(Quiz("002", "CHEMISTRY"))
         quizList.add(Quiz("003", "MATHEMATICS"))
-        quizList.add(Quiz("004", "MISCELLANEOUS"))
-        quizList.add(Quiz("005", "PHYSICS TF"))
-        quizList.add(Quiz("006", "CHEMISTRY TF"))
-        quizList.add(Quiz("007", "MATHEMATICS TF"))
-        quizList.add(Quiz("008", "MISCELLANEOUS TF"))
-
+        quizList.add(Quiz("004", "BIOLOGY"))
+        quizList.add(Quiz("005", "GK"))
+        quizList.add(Quiz("006", "MISCELLANEOUS"))
     }
 
     fun setUpViews() {
@@ -56,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.quizRecyclerView)
         quizRecyclerView.layoutManager = GridLayoutManager(this, 2)
         quizRecyclerView.adapter = adapter
-        adapter.setOnItemClickListener(object  : QuizAdapter.onItemClickListener{
+        adapter.setOnItemClickListener(object : QuizAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val title = quizList[position].title
                 val intent = Intent(this@MainActivity, QuestionActivity::class.java)
@@ -78,14 +69,22 @@ class MainActivity : AppCompatActivity() {
             R.string.app_name
         )
         actionBarDrawerToggle.syncState()
-        val nav_view : com.google.android.material.navigation.NavigationView = findViewById(R.id.navigationView)
-        val btnLogOut : MenuItem = nav_view.menu.findItem(R.id.logOut)
+        val nav_view: com.google.android.material.navigation.NavigationView =
+            findViewById(R.id.navigationView)
+
+        val headerView = nav_view.getHeaderView(0)
+        val usernameTextView: TextView = headerView.findViewById(R.id.username)
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email
+        val index: Int = userEmail!!.indexOf('@')
+        val str = userEmail.subSequence(0, index).toString()
+        usernameTextView.text = str.capitalize()
+
+        val btnLogOut: MenuItem = nav_view.menu.findItem(R.id.logOut)
         btnLogOut.setOnMenuItemClickListener {
             showLogoutConfirmationDialog()
             true
         }
     }
-
 
 
     private fun showLogoutConfirmationDialog() {
@@ -102,8 +101,9 @@ class MainActivity : AppCompatActivity() {
     private fun performLogout() {
         FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
-        finish()
+
     }
 
 

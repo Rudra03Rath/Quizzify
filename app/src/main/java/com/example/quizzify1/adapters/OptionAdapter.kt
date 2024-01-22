@@ -1,6 +1,7 @@
 package com.example.quizzify1.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,8 @@ class OptionAdapter(
 ) :
     RecyclerView.Adapter<OptionAdapter.OptionViewHolder>() {
 
-    private var options: List<String?> =
-        listOf(question.opt1, question.opt2, question.opt3, question.opt4)
-
     inner class OptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var optionView = itemView.findViewById<TextView>(R.id.quiz_option)
+        var optionView = itemView.findViewById<TextView>(R.id.etOption)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
@@ -29,18 +27,19 @@ class OptionAdapter(
     }
 
     override fun getItemCount(): Int {
-        return options.size
+        return question.options?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
-        holder.optionView.text = options[position]
+        holder.optionView.text = question.options?.get(position)
         holder.itemView.setOnClickListener {
-            question.userAns = options[position]
+            question.userAns = question.options?.get(position)
             callback(question)
             notifyDataSetChanged()
+            Log.d("OptionAdapter", "Selected option: ${question.userAns}")
         }
 
-        if (question.userAns == options[position]) {
+        if (question.userAns == question.options?.get(position)) {
             holder.itemView.setBackgroundResource(R.drawable.option_item_selected_bg)
         } else {
             holder.itemView.setBackgroundResource(R.drawable.option_item_bg)
