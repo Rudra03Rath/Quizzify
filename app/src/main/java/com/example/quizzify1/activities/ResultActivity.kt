@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.text.capitalize
+import androidx.core.content.ContextCompat
 import com.example.quizzify1.R
 import com.example.quizzify1.models.QuestionModel
 import com.example.quizzify1.models.Quiz
@@ -18,6 +19,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var questions: MutableMap<String, QuestionModel>
@@ -26,6 +36,7 @@ class ResultActivity : AppCompatActivity() {
     private var score=0
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var dbRef: DatabaseReference
+    private lateinit var pieChart: PieChart
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
@@ -38,7 +49,60 @@ class ResultActivity : AppCompatActivity() {
             val intent = Intent(this, LeaderBoardActivity::class.java)
             startActivity(intent)
         }
+        setUpPieChart()
     }
+
+    private fun setUpPieChart() {
+        pieChart = findViewById(R.id.pieChart)
+        pieChart.setUsePercentValues(true)
+        pieChart.description.isEnabled = false
+        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
+        pieChart.dragDecelerationFrictionCoef = 0.95f
+        pieChart.isDrawHoleEnabled = true
+        pieChart.setHoleColor(android.R.color.transparent)
+        pieChart.transparentCircleRadius = 61f
+        pieChart.legend.isEnabled = false
+
+        var correctCount = 0
+        var skippedCount = 0
+
+        for (entry in questions.entries) {
+            val question = entry.value
+            if (question.ans == question.userAns) {
+                correctCount++
+            } else if (question.userAns.isNullOrEmpty()) {
+                skippedCount++
+            }
+        }
+
+        val wrongCount = questions.size - correctCount - skippedCount
+
+        val correctEntries = PieEntry(correctCount.toFloat(), 0F)
+        val skippedEntries = PieEntry(skippedCount.toFloat(), 1F)
+        val wrongEntries = PieEntry(wrongCount.toFloat(), 2F)
+
+        val dataSet = PieDataSet(listOf(correctEntries, skippedEntries, wrongEntries), "")
+        dataSet.sliceSpace = 3f
+        dataSet.selectionShift = 5f
+        dataSet.colors = listOf(
+            ContextCompat.getColor(this, R.color.green),  // Green for correct entries
+            ContextCompat.getColor(this, R.color.blue),   // Blue for skipped entries
+            ContextCompat.getColor(this, R.color.red)     // Red for wrong entries
+        )
+
+        val pieData = PieData(dataSet)
+        pieData.setValueTextSize(15f)
+        dataSet.setValueTextColor(ContextCompat.getColor(this, R.color.black))
+
+        pieData.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "${value.toInt()}%"
+            }
+        })
+
+        pieChart.data = pieData
+    }
+
 
     private fun setUpViews() {
         txtAnswer = findViewById(R.id.txtAnswer)

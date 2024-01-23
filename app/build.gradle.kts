@@ -57,4 +57,6 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }

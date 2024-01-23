@@ -25,15 +25,3 @@ class ChooseActivity : AppCompatActivity(){
         }
     }
 }
-
-/*
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_leaderboard)
-
-    leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView)
-    databaseReference = FirebaseDatabase.getInstance().getReference("Leaderboard")
-
-    setUpRecyclerView()
-    displayLeaderboard()
-}*/
