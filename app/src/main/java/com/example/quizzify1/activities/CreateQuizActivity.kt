@@ -65,7 +65,6 @@ class CreateQuizActivity : AppCompatActivity() {
         btnImg.setOnClickListener {
             img.visibility = View.VISIBLE
             galleryimg.launch("image/*")
-            btnImg.visibility = View.GONE
         }
 
         btn.setOnClickListener {
@@ -105,11 +104,11 @@ class CreateQuizActivity : AppCompatActivity() {
         }
 
         if (sub.isEmpty() || sub=="NULL") {
-            Toast.makeText(this, "Please select a subject", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Please select a subject", Toast.LENGTH_SHORT).show()
         } else if (ques.isEmpty() && uri == null) {
             etQuestion.error = "Please Enter The Question"
         } else if (options.size < 2) {
-            Toast.makeText(this, "Please Enter at least two options", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Please Enter at least two options", Toast.LENGTH_SHORT).show()
         } else if (ans.isEmpty()) {
             etAns.error = "Please Enter The Correct Answer"
         } else if (uri == null) {
@@ -118,16 +117,16 @@ class CreateQuizActivity : AppCompatActivity() {
                 val question = QuestionModel(questionId, ques, options, ans)
                 dbRef.child(sub).child(questionId).setValue(question)
                     .addOnCompleteListener {
-                        Toast.makeText(this, "Question is Created", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Question is Created", Toast.LENGTH_SHORT).show()
                         val refresh = Intent(this, CreateQuizActivity::class.java)
                         startActivity(refresh)
                         finish()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "Correct Answer is not in the Options", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Correct Answer is not in the Options", Toast.LENGTH_SHORT).show()
             }
         } else {
             storageRef.getReference("Images").child(System.currentTimeMillis().toString())
@@ -141,16 +140,16 @@ class CreateQuizActivity : AppCompatActivity() {
                                 val question = QuestionModel(questionId, ques, options, ans, imgUrl)
                                 dbRef.child(sub).child(questionId).setValue(question)
                                     .addOnCompleteListener {
-                                        Toast.makeText(this, "Question is Created", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this, "Question is Created", Toast.LENGTH_SHORT).show()
                                         val refresh = Intent(this, CreateQuizActivity::class.java)
                                         startActivity(refresh)
                                         finish()
                                     }
                                     .addOnFailureListener {
-                                        Toast.makeText(this, "Error!", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
                                     }
                             } else {
-                                Toast.makeText(this, "Correct Answer is not in the Options", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, "Correct Answer is not in the Options", Toast.LENGTH_SHORT).show()
                             }
                         }
                 }

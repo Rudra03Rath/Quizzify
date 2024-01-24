@@ -1,8 +1,10 @@
 package com.example.quizzify1.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizzify1.R
 import com.google.firebase.database.FirebaseDatabase
@@ -23,5 +25,22 @@ class ChooseActivity : AppCompatActivity(){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        showExitConfirmationDialog()
+    }
+
+    private fun showExitConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Exit App!")
+        builder.setMessage("Are you sure you want to leave the App?")
+        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+            super.onBackPressed()
+        }
+        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+            // Do nothing, stay in the app and Enjoy
+        }
+        builder.show()
     }
 }

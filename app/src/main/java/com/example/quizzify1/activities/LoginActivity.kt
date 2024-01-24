@@ -1,9 +1,11 @@
 package com.example.quizzify1.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.quizzify1.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -21,8 +23,9 @@ class LoginActivity : AppCompatActivity() {
         binding.btnSignUp.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
-            finish()
+            //finish()
         }
+
 
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmailAddress.text.toString()
@@ -49,4 +52,5 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
 }

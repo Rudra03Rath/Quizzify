@@ -167,7 +167,7 @@ class QuestionActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
+                // Nothing to say
             }
         })
         dbRef.get()
@@ -216,8 +216,5 @@ class QuestionActivity : AppCompatActivity() {
             optList.adapter = optionAdapter
             optList.setHasFixedSize(true)
         }
-
-
     }
 }
-

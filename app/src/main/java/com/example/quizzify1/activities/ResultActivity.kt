@@ -9,7 +9,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.capitalize
 import androidx.core.content.ContextCompat
 import com.example.quizzify1.R
 import com.example.quizzify1.models.QuestionModel
@@ -20,19 +19,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var questions: MutableMap<String, QuestionModel>
     lateinit var txtAnswer: TextView
-    private var quizList = mutableListOf<Quiz>()
     private var score=0
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var dbRef: DatabaseReference
@@ -42,9 +36,7 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
         firebaseAuth = FirebaseAuth.getInstance()
         val btnLb : Button = findViewById(R.id.btnLeaderboard)
-       // FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         setUpViews()
-      //  saveScoreToFirebase()
         btnLb.setOnClickListener {
             val intent = Intent(this, LeaderBoardActivity::class.java)
             startActivity(intent)
@@ -63,31 +55,31 @@ class ResultActivity : AppCompatActivity() {
         pieChart.transparentCircleRadius = 61f
         pieChart.legend.isEnabled = false
 
-        var correctCount = 0
-        var skippedCount = 0
+        var correct = 0
+        var skipped = 0
 
         for (entry in questions.entries) {
             val question = entry.value
             if (question.ans == question.userAns) {
-                correctCount++
+                correct++
             } else if (question.userAns.isNullOrEmpty()) {
-                skippedCount++
+                skipped++
             }
         }
 
-        val wrongCount = questions.size - correctCount - skippedCount
+        val wrong = questions.size - correct - skipped
 
-        val correctEntries = PieEntry(correctCount.toFloat(), 0F)
-        val skippedEntries = PieEntry(skippedCount.toFloat(), 1F)
-        val wrongEntries = PieEntry(wrongCount.toFloat(), 2F)
+        val correctEntries = PieEntry(correct.toFloat(), 0F)
+        val skippedEntries = PieEntry(skipped.toFloat(), 1F)
+        val wrongEntries = PieEntry(wrong.toFloat(), 2F)
 
         val dataSet = PieDataSet(listOf(correctEntries, skippedEntries, wrongEntries), "")
         dataSet.sliceSpace = 3f
         dataSet.selectionShift = 5f
         dataSet.colors = listOf(
-            ContextCompat.getColor(this, R.color.green),  // Green for correct entries
-            ContextCompat.getColor(this, R.color.blue),   // Blue for skipped entries
-            ContextCompat.getColor(this, R.color.red)     // Red for wrong entries
+            ContextCompat.getColor(this, R.color.green),  // Green for correct
+            ContextCompat.getColor(this, R.color.blue),   // Blue for skipped
+            ContextCompat.getColor(this, R.color.red)     // Red for wrong
         )
 
         val pieData = PieData(dataSet)
@@ -137,8 +129,8 @@ class ResultActivity : AppCompatActivity() {
                 score += 10
             }
         }
-        var totalScore = (questions.size)*10
-        var txtScore : TextView = findViewById(R.id.txtScore)
+        val totalScore = (questions.size)*10
+        val txtScore : TextView = findViewById(R.id.txtScore)
         txtScore.text = "Your Score : $score/$totalScore"
         saveScoreToFirebase()
 

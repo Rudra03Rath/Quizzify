@@ -6,20 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizzify1.R
 import com.example.quizzify1.adapters.LeaderboardAdapter
-import com.example.quizzify1.models.LeaderboardItem
+import com.example.quizzify1.models.LeaderboardModel
 import com.google.firebase.database.*
 
 class LeaderBoardActivity : AppCompatActivity() {
 
     private lateinit var leaderboardRecyclerView: RecyclerView
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var dbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
 
         leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView)
-        databaseReference = FirebaseDatabase.getInstance().getReference("Leaderboard")
+        dbRef = FirebaseDatabase.getInstance().getReference("Leaderboard")
 
         setUpRecyclerView()
         displayLeaderboard()
@@ -32,44 +32,38 @@ class LeaderBoardActivity : AppCompatActivity() {
     }
 
     private fun displayLeaderboard() {
-        val query: Query = databaseReference.orderByValue()
+        val query: Query = dbRef.orderByValue()
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val leaderboardList = mutableListOf<LeaderboardItem>()
+                val leaderboardList = mutableListOf<LeaderboardModel>()
 
                 for (quizSnapshot in dataSnapshot.children) {
                     val quizTitle = quizSnapshot.key
 
-                    // Add a quiz title as a separator in the list
                     if (quizTitle != null) {
-                        leaderboardList.add(LeaderboardItem("", quizTitle, -1, 1))
+                        leaderboardList.add(LeaderboardModel("", quizTitle, -1, 1))
                     }
 
-                    val users = mutableListOf<LeaderboardItem>()
+                    val users = mutableListOf<LeaderboardModel>()
 
                     for (userSnapshot in quizSnapshot.children) {
                         val userName = userSnapshot.key
                         val score = userSnapshot.value as Long?
 
                         if (userName != null && quizTitle != null && score != null) {
-                            users.add(LeaderboardItem(userName, quizTitle, score.toInt(), 0))
+                            users.add(LeaderboardModel(userName, quizTitle, score.toInt(), 0))
                         }
                     }
 
-                    // Sort users by score in decreasing order
                     users.sortByDescending { it.score }
-
-                    // Add sorted users to the leaderboard list
                     leaderboardList.addAll(users)
                 }
-
-                // Update the adapter with the new data
                 (leaderboardRecyclerView.adapter as? LeaderboardAdapter)?.updateData(leaderboardList)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                // Kuch bhi
             }
         })
     }

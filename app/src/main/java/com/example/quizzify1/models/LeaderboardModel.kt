@@ -1,8 +1,8 @@
 package com.example.quizzify1.models
 
-data class LeaderboardItem(
+data class LeaderboardModel(
     val userName: String,
     val quizTitle: String,
     val score: Int,
-    val type: Int // 0 for user, 1 for quiz title, 2 for space
+    val type: Int // 0 for user, 1 for quiz title
 )

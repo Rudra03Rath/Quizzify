@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizzify1.R
-import com.example.quizzify1.models.LeaderboardItem
+import com.example.quizzify1.models.LeaderboardModel
 
-class LeaderboardAdapter(private var leaderboardList: List<LeaderboardItem>) :
+class LeaderboardAdapter(private var leaderboardList: List<LeaderboardModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_QUIZ = 1
@@ -19,7 +19,7 @@ class LeaderboardAdapter(private var leaderboardList: List<LeaderboardItem>) :
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val leaderboardItemTextView: TextView = itemView.findViewById(R.id.leaderboardItemTextView)
+        val userTextView: TextView = itemView.findViewById(R.id.leaderboardItemTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -47,7 +47,7 @@ class LeaderboardAdapter(private var leaderboardList: List<LeaderboardItem>) :
             VIEW_TYPE_USER -> {
                 val userViewHolder = holder as UserViewHolder
                 val leaderboardItem = leaderboardList[position]
-                userViewHolder.leaderboardItemTextView.text =
+                userViewHolder.userTextView.text =
                     "${leaderboardItem.userName}: ${leaderboardItem.score}"
             }
         }
@@ -61,7 +61,7 @@ class LeaderboardAdapter(private var leaderboardList: List<LeaderboardItem>) :
         return if (leaderboardList[position].type == 1) VIEW_TYPE_QUIZ else VIEW_TYPE_USER
     }
 
-    fun updateData(newList: List<LeaderboardItem>) {
+    fun updateData(newList: List<LeaderboardModel>) {
         leaderboardList = newList
         notifyDataSetChanged()
     }
